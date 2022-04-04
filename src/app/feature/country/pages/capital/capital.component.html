@@ -1,1 +1,17 @@
-<p>capital works!</p>
+<p>Busqueda por capital</p>
+<hr>
+<div class="row">
+  <div class="col">
+    <app-input (onTermino)="buscar($event)" (onDebounce)="sugerencias($event)" placeholder="buscar por capital..."></app-input>
+  </div>
+</div>
+<hr>
+<div class="alert alert-danger" *ngIf="existError">
+  No se encontro el termino {{termino}}
+</div>
+
+<div class="row" *ngIf="country.length>0">
+  <div class="col">
+    <app-table [country]="country"></app-table>
+  </div>
+</div>

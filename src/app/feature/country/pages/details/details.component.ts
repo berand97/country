@@ -1,4 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { switchMap, tap } from 'rxjs';
+import { CountryService } from '../../shared/services/country.service';
+import { Country } from '../../shared/interfaces/country.interface';
 
 @Component({
   selector: 'app-details',
@@ -7,9 +11,21 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DetailsComponent implements OnInit {
 
-  constructor() { }
+  pais!: Country;
+
+  constructor(
+    private activatedRoute: ActivatedRoute,
+    private paisService: CountryService
+  ) { }
 
   ngOnInit(): void {
+
+    this.activatedRoute.params
+      .pipe(
+        switchMap(({ id }) => this.paisService.getPaisPorCodigo(id)),
+        tap(console.log)
+      )
+      .subscribe(pais => this.pais = pais[0]);
   }
 
 }
